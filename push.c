@@ -13,14 +13,14 @@ void push(stack_t **stack, unsigned int line_number)
     arg = strtok(NULL, " \t\n");
     if (!arg || !is_integer(arg))
     {
-        dprintf(STDERR_FILENO, "L%d: usage: push integer\n", line_number);
+        fprintf(stderr, "L%d: usage: push integer\n", line_number);
         exit(EXIT_FAILURE);
     }
 
     n = atoi(arg);
     if (!push_stack(stack, n))
     {
-        dprintf(STDERR_FILENO, "Error: malloc failed\n");
+        fprintf(stderr, "Error: malloc failed\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -41,4 +41,33 @@ int is_integer(char *str)
             return 0;
     }
     return 1;
+}
+#include "monty.h"
+
+/**
+ * push_stack - Pushes a new element onto the stack.
+ * @stack: Double pointer to the stack (top of the stack).
+ * @n: The integer value to push onto the stack.
+ * Return: 1 on success, 0 on failure (e.g., memory allocation failure).
+ */
+int push_stack(stack_t **stack, int n)
+{
+    stack_t *new_node;
+
+    new_node = malloc(sizeof(stack_t));
+    if (new_node == NULL) {
+        return 0; /* Memory allocation failure*/
+    }
+
+    new_node->n = n;
+    new_node->prev = NULL;
+    new_node->next = *stack;
+
+    if (*stack != NULL) {
+        (*stack)->prev = new_node;
+    }
+
+    *stack = new_node;
+
+    return 1; /* Success*/
 }

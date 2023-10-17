@@ -24,5 +24,5 @@ void rotr(stack_t **stack, unsigned int line_number)
         *stack = current;
     }
 
-    (void)line_number; // Unused parameter; silence compiler warning
+    (void)line_number; /* Unused parameter; silence compiler warning*/
 }

@@ -9,7 +9,7 @@ void set_stack_mode(stack_t **stack, unsigned int line_number)
 {
     (void)stack;
     (void)line_number;
-    // Nothing to do here, as stack mode is the default behavior.
+    /* Nothing to do here, as stack mode is the default behavior.*/
 }
 
 /**
@@ -23,8 +23,8 @@ void set_queue_mode(stack_t **stack, unsigned int line_number)
 
     (void)line_number;
 
-    // If the stack is not empty and has more than one element,
-    // reverse the order of elements to change to queue mode.
+    /* If the stack is not empty and has more than one element,*/
+    /* reverse the order of elements to change to queue mode.*/
     if (current && current->next)
     {
         stack_t *prev = NULL;
@@ -39,6 +39,6 @@ void set_queue_mode(stack_t **stack, unsigned int line_number)
             current = next;
         }
 
-        *stack = prev; // Update the stack pointer.
+        *stack = prev; /* Update the stack pointer.*/
     }
 }

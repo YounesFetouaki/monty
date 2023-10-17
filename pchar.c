@@ -9,13 +9,13 @@ void pchar(stack_t **stack, unsigned int line_number)
 {
     if (*stack == NULL)
     {
-        dprintf(STDERR_FILENO, "L%d: can't pchar, stack empty\n", line_number);
+        fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
         exit(EXIT_FAILURE);
     }
 
-    if ((*stack)->n < 0 || (*stack)->n > 127) // Check if the value is out of the ASCII range
+    if ((*stack)->n < 0 || (*stack)->n > 127) /* Check if the value is out of the ASCII range*/
     {
-        dprintf(STDERR_FILENO, "L%d: can't pchar, value out of range\n", line_number);
+        fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
         exit(EXIT_FAILURE);
     }
 

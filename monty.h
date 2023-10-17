@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
+
 
 /* Data structure for the stack */
 typedef struct stack_s
@@ -32,6 +34,7 @@ void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void set_stack_mode(stack_t **stack, unsigned int line_number);
 void set_queue_mode(stack_t **stack, unsigned int line_number);
+int push_stack(stack_t **stack, int n);
 
 
 /* Other utility functions */
