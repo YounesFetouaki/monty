@@ -35,4 +35,4 @@ void push(stack_t **stack, unsigned int line_number)
 		(*stack)->prev = new_element;
 
 	*stack = new_element;
-
+}
