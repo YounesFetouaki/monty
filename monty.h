@@ -35,10 +35,10 @@ void rotr(stack_t **stack, unsigned int line_number);
 void set_stack_mode(stack_t **stack, unsigned int line_number);
 void set_queue_mode(stack_t **stack, unsigned int line_number);
 int push_stack(stack_t **stack, int n);
-
-
-/* Other utility functions */
-int is_integer(char *str);
-int push_stack(stack_t **stack, int n);
+void free_stack(stack_t *stack);
+instruction_t get_instruction(char *opcode);
+void execute_instruction(instruction_t instruction,
+		stack_t **stack, unsigned int line_number);
+int _getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* MONTY_H */

@@ -1,55 +1,69 @@
-/* Define the _POSIX_C_SOURCE macro to enable POSIX features*/
-#define _POSIX_C_SOURCE 200809L
-#include <stdio.h>
-#include <stdlib.h>
 #include "monty.h"
 
-/* Include other necessary headers and declarations*/
-
-int main(int argc, char *argv[])
+/**
+ * _getline - Reads a line of input from a stream.
+ * @lineptr: Pointer to the buffer that will store the line.
+ * @n: Pointer to the size of the buffer.
+ * @stream: The input stream to read from.
+ *
+ * Return: The number of characters read, or -1 on failure or end of file.
+ */
+int _getline(char **lineptr, size_t *n, FILE *stream)
 {
-    FILE *file = fopen(argv[1], "r");
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
+	int read;
+	size_t len = 0;
+	char *line = NULL;
 
-    /* Check for the correct number of command-line arguments*/
-    if (argc != 2)
-    {
-        fprintf(stderr, "USAGE: monty file\n");
-        exit(EXIT_FAILURE);
-    }
+	read = _getline(&line, n, stream);
+	if (read != -1)
+	{
+		*lineptr = line;
+		*n = len;
+	}
+	else
+	{
+		*lineptr = NULL;
+		*n = 0;
+		free(line);
+	}
 
-    /* Open the Monty bytecode file*/
-    
-    if (!file)
-    {
-        fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-        exit(EXIT_FAILURE);
-    }
+	return (read);
+}
 
+/**
+ * main - Entry point of the program.
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+	char *line = NULL;
+	size_t len = 0;
+	int read;
+	unsigned int line_number = 0;
+	stack_t *stack = NULL;
+	instruction_t instruction;
+	char *opcode = strtok(line, " \t\n");
 
-    while ((read = getline(&line, &len, file) != -1))
-    {
-        if (read > 0)
-        {
-            /* Check if the line is a comment*/
-            if (line[0] == '#')
-            {
-                /* This line is a comment; skip it.*/
-                continue;
-            }
+	while ((read = _getline(&line, &len, stdin)) != -1)
+	{
+		line_number++;
+		if (!opcode || opcode[0] == '#')
+			continue;
 
-            /* Parse and execute the non-comment line as Monty bytecode*/
-            /* Implement the Monty opcode execution logic here.*/
-        }
-    }
+		instruction = get_instruction(opcode);
+		if (instruction.opcode == NULL)
+		{
+			fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+			free_stack(stack);
+			free(line);
+			exit(EXIT_FAILURE);
+		}
 
-    /* Close the file and free allocated memory*/
-    fclose(file);
-    free(line);
+		execute_instruction(instruction, &stack, line_number);
+	}
 
-    /* Continue with the rest of your Monty interpreter logic*/
-
-    return (0);
+	free_stack(stack);
+	free(line);
+	return (EXIT_SUCCESS);
 }
