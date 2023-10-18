@@ -7,32 +7,32 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-    char *argument = strtok(NULL, " \t\n");
-    int number = atoi(argument);
-    stack_t *new_element = malloc(sizeof(stack_t));
+	char *argument = strtok(NULL, " \t\n");
+	int number = atoi(argument);
+	stack_t *new_element = malloc(sizeof(stack_t));
 
-    if (argument == NULL || !argument[0])
-    {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    if (number == 0 && argument[0] != '0')
-    {
-        fprintf(stderr, "L%u: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-    if (new_element == NULL)
-    {
-        fprintf(stderr, "Error: malloc failed\n");
-        exit(EXIT_FAILURE);
-    }
+	if (argument == NULL || !argument[0])
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	if (number == 0 && argument[0] != '0')
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	if (new_element == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
 
-    new_element->n = number;
-    new_element->prev = NULL;
-    new_element->next = *stack;
+	new_element->n = number;
+	new_element->prev = NULL;
+	new_element->next = *stack;
 
-    if (*stack != NULL)
-        (*stack)->prev = new_element;
+	if (*stack != NULL)
+		(*stack)->prev = new_element;
 
-    *stack = new_element;
-}
+	*stack = new_element;
+
