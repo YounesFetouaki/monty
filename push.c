@@ -2,72 +2,37 @@
 
 /**
  * push - Pushes an element to the stack.
- * @stack: Double pointer to the stack.
- * @line_number: Line number in the Monty bytecode file.
+ * @stack: Double pointer to the stack (doubly linked list).
+ * @line_number: Line number where the push opcode is encountered.
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-    char *arg;
-    int n;
+    char *argument = strtok(NULL, " \t\n");
+    int number = atoi(argument);
+    stack_t *new_element = malloc(sizeof(stack_t));
 
-    arg = strtok(NULL, " \t\n");
-    if (!arg || !is_integer(arg))
+    if (argument == NULL || !argument[0])
     {
-        fprintf(stderr, "L%d: usage: push integer\n", line_number);
+        fprintf(stderr, "L%u: usage: push integer\n", line_number);
         exit(EXIT_FAILURE);
     }
-
-    n = atoi(arg);
-    if (!push_stack(stack, n))
+    if (number == 0 && argument[0] != '0')
+    {
+        fprintf(stderr, "L%u: usage: push integer\n", line_number);
+        exit(EXIT_FAILURE);
+    }
+    if (new_element == NULL)
     {
         fprintf(stderr, "Error: malloc failed\n");
         exit(EXIT_FAILURE);
     }
-}
 
-/**
- * is_integer - Checks if a string represents an integer.
- * @str: The string to check.
- * Return: 1 if the string is an integer, 0 otherwise.
- */
-int is_integer(char *str)
-{
-    int i = 0;
-    if (str[0] == '-')
-        i = 1;
-    for (; str[i] != '\0'; i++)
-    {
-        if (!isdigit(str[i]))
-            return 0;
-    }
-    return 1;
-}
-#include "monty.h"
+    new_element->n = number;
+    new_element->prev = NULL;
+    new_element->next = *stack;
 
-/**
- * push_stack - Pushes a new element onto the stack.
- * @stack: Double pointer to the stack (top of the stack).
- * @n: The integer value to push onto the stack.
- * Return: 1 on success, 0 on failure (e.g., memory allocation failure).
- */
-int push_stack(stack_t **stack, int n)
-{
-    stack_t *new_node;
+    if (*stack != NULL)
+        (*stack)->prev = new_element;
 
-    new_node = malloc(sizeof(stack_t));
-    if (new_node == NULL) {
-        return 0; /* Memory allocation failure*/
-    }
-
-    new_node->n = n;
-    new_node->prev = NULL;
-    new_node->next = *stack;
-
-    if (*stack != NULL) {
-        (*stack)->prev = new_node;
-    }
-
-    *stack = new_node;
-
-    return 1; /* Success*/
+    *stack = new_element;
 }
