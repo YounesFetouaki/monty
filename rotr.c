@@ -7,22 +7,23 @@
  */
 void rotr(stack_t **stack, unsigned int line_number)
 {
-    stack_t *current, *new_bottom;
+	stack_t *current, *new_bottom;
 
-    if (*stack && (*stack)->next)
-    {
-        current = *stack;
-        new_bottom = current;
+	if (*stack && (*stack)->next)
+	{
+		current = *stack;
+		new_bottom = current;
 
-        while (current->next)
-            current = current->next;
+		while (current->next)
+			current = current->next;
 
-        current->next = *stack;
-        (*stack)->prev = current;
-        (*stack)->next = NULL;
-        new_bottom->prev = NULL;
-        *stack = current;
-    }
+		current->next = *stack;
+		(*stack)->prev = current;
+		(*stack)->next = NULL;
+		new_bottom->prev = NULL;
+		*stack = current;
+	}
 
-    (void)line_number; /* Unused parameter; silence compiler warning*/
+	(void)line_number;
+	/* Unused parameter; silence compiler warning*/
 }
