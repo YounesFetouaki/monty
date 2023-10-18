@@ -1,12 +1,12 @@
 #include "monty.h"
 
 /**
- * stack - Sets the stack mode to stack.
+ * f_stack - Sets the stack mode to stack.
  * @head: Pointer to the stack's head
  * @counter: Line number
  * Return: No return value
  */
-void stack(stack_t **head, unsigned int counter)
+void f_stack(stack_t **head, unsigned int counter)
 {
     (void)head;
     (void)counter;
